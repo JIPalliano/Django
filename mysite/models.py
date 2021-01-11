@@ -5,6 +5,8 @@ from django.db import models
 
 class Funcionario(models.Model):
 
+    id = models.IntegerField(primary_key = True)
+
     nome = models.CharField(max_length=255, null=False, blank=False)
 
     sobrenome = models.CharField(max_length=255, null=False, blank=False)
@@ -16,4 +18,7 @@ class Funcionario(models.Model):
     remuneracao = models.DecimalField(max_digits=8, decimal_places=2, null=False, blank=False)
 
     objetos = models.Manager()
+
+    def __str__(self):
+        return self.cpf
 

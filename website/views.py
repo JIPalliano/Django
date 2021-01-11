@@ -4,7 +4,9 @@ from mysite.models import Funcionario
 from mysite.forms import FuncionarioForm
 from django.urls import reverse
 from django.shortcuts import redirect
-from django.views.generic import UpdateView
+from django.shortcuts import get_object_or_404
+from django.http import Http404
+
 
 
 # Create your views here.
@@ -29,13 +31,32 @@ def criar_novo_funcionario(request):
 
     return render(request, "form.html", {'form':form})
 
-def FuncionariosUpdateView(resquest, id):
-    funcionario = Funcionario.objetos.get(id=id)
-    form = Funcionario(request.POST or None, instance=funcionario)
+def atualizar_funcionario(request, _id):
+    try:
+        old_data = get_object_or_404(Funcionario, id = _id)
+    except Exception:
+        raise Http404('Não existe')
 
-    if form.is_valid():
-        form.save()
-        return redirect('website:lista_funcionarios')
+    if request.method == 'POST':
+        form = FuncionarioForm (request.POST, instance = old_data)
 
-    return render(request, 'atualizar.html', {'form':form, 'funcionario':funcionario})
-    
+        if form.is_valid():
+            form.save()
+            return redirect(f'/att/{_id}')
+
+    else:
+        form = FuncionarioForm(instance = old_data)
+        context ={'form':form}
+        return render(request,'atualizar.html',context)
+
+def delete_funcionario(request, _id):
+    try:
+        data = get_object_or_404(Funcionario, id = _id)
+    except Exception:
+        raise Http404('Não existe')
+
+    if request.method == 'POST':
+        data.delete()
+        return redirect('/')
+    else:
+        return render(request, 'delete.html')

@@ -2,8 +2,8 @@
     <h1>Novo/atualizar cadastro funcionario</h1>
     <form method="POST">
         {% csrf_token %}
-        {{form}}
-        <button type="submit">Salvar</button>
+        {{form.as_p}}
+        <input type="submit" value = "Update">
     </form>
 
    

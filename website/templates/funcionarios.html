@@ -2,21 +2,20 @@
     <tbody>
     {% for funcionario in funcionarios %}
      <tr>
+     <td>{{ funcionario.id }}</td>
      <td>{{ funcionario.nome }}</td>
      <td>{{ funcionario.sobrenome }}</td>
      <td>{{ funcionario.remuneracao }}</td>
      <td>{{ funcionario.tempo_de_servico }}</td>
+     <td>{{ funcionario.cpf }}</td>
     </tr>
     {% endfor %}
     <h1>Novo/atualizar cadastro funcionario</h1>
-    <form method="GET">
-        {% csrf_token %}
-        {{form}}
-        <button type="submit">Salvar</button>
-        <a href="{ % url 'novo' % }">Criar novo funcionario</a>
-        <br>
-        <a href="atualizar.html">atualizar funcionario</a>
-    </form>
+        <form method = "post">
+            {% csrf_token %}
+            {{form.as_p}}
+            <input type = "submit" value = "submit">
+        </form>
     </tbody>
 
     </table>
